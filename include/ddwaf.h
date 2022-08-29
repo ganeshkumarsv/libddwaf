@@ -112,26 +112,28 @@ typedef struct _ddwaf_context* ddwaf_context;
      *
      * Configuration to be provided to the WAF
      **/
+    struct _ddwaf_config_limits
+    {
+        /** Maximum size of ddwaf::object containers. */
+        uint32_t max_container_size;
+        /** Maximum depth of ddwaf::object containers. */
+        uint32_t max_container_depth;
+        /** Maximum length of ddwaf::object strings. */
+        uint32_t max_string_length;
+    };
+
+    /** Obfuscator regexes - the strings are owned by the caller */
+    struct _ddwaf_config_obfuscator
+    {
+        /** Regular expression for key-based obfuscation */
+        const char* key_regex;
+        /** Regular expression for value-based obfuscation */
+        const char* value_regex;
+    };
     struct _ddwaf_config
     {
-        struct _ddwaf_config_limits
-        {
-            /** Maximum size of ddwaf::object containers. */
-            uint32_t max_container_size;
-            /** Maximum depth of ddwaf::object containers. */
-            uint32_t max_container_depth;
-            /** Maximum length of ddwaf::object strings. */
-            uint32_t max_string_length;
-        } limits;
-
-        /** Obfuscator regexes - the strings are owned by the caller */
-        struct _ddwaf_config_obfuscator
-        {
-            /** Regular expression for key-based obfuscation */
-            const char* key_regex;
-            /** Regular expression for value-based obfuscation */
-            const char* value_regex;
-        } obfuscator;
+        _ddwaf_config_limits limits;
+        _ddwaf_config_obfuscator obfuscator;
     };
 
     /**
